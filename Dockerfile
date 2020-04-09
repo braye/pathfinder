@@ -1,5 +1,6 @@
 FROM php:fpm-alpine
 
+COPY ./cfg/php-pathfinder.ini $PHP_INI_DIR/conf.d/
 RUN apk add --no-cache \
 	git zip unzip curl zlib-dev libpng-dev \
 	mariadb-client && \
