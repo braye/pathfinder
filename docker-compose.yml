@@ -1,0 +1,42 @@
+version: "3.3"
+services:
+    fpm:
+        build: .
+        container_name: pf-fpm
+        depends_on:
+            - mariadb
+        volumes:
+            - pf-code:/opt/pathfinder
+        networks:
+            - pf-network
+
+    mariadb:
+        image: mariadb:10
+        container_name: pf-mariadb
+        environment:
+            MYSQL_RANDOM_ROOT_PASSWORD: "yes"
+            MYSQL_USER: ${DB_USERNAME}
+            MYSQL_PASSWORD: ${DB_PASSWORD}
+        volumes:
+          - ./db:/docker-entrypoint-initdb.d:ro
+          - pf-mariadb:/var/lib/mysql
+        networks:
+            - pf-network
+
+    nginx:
+        image: nginx:alpine
+        container_name: pf-nginx
+        depends_on:
+            - fpm 
+        volumes:
+            - pf-code:/opt/pathfinder
+            - ./cfg/nginx.conf:/etc/nginx/nginx.conf
+        networks:
+            - pf-network
+
+volumes:
+    pf-code:
+    pf-mariadb:
+
+networks:
+    pf-network:
