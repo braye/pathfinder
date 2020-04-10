@@ -34,6 +34,8 @@ services:
             - pf-code:/opt/pathfinder
             - ./cfg/nginx.conf:/etc/nginx/nginx.conf
             - ./.htpasswd:/opt/pathfinder/.setup_pass
+        ports:
+            - "127.0.0.1:${NGINX_PORT}:80"
         networks:
             - pf-network
 
