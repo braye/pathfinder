@@ -8,6 +8,7 @@ RUN apk add --no-cache \
 RUN git clone https://github.com/exodus4d/pathfinder.git /opt/pathfinder/
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 RUN cd /opt/pathfinder/ && composer install
+RUN mkdir /opt/pathfinder/tmp/cache
 COPY ./startup.sh /root/startup.sh
 RUN chmod +x /root/startup.sh
 WORKDIR /opt/pathfinder
